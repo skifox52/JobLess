@@ -34,12 +34,14 @@ exports.postCategorie = async (req, res) => {
 exports.deleteCategorie = expressAsyncHandler( async (req , res ) => {
     try {
         const id = req.params.id 
-     
         await categorieModel.findByIdAndDelete(id) 
+        res.status(201).json("Categorie supprimé avec succes !! ")
     } catch (error) {
         res.status(400)
         throw new Error(error) 
     }
 })
 
+
+// Modifier une categorie : 
 
