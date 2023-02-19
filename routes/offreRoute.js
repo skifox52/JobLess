@@ -1,4 +1,4 @@
-const { getAllOffres, postOffer,deleteOffre,updateOffer} = require("../controllers/offreController")
+const { getAllOffres, postOffer,deleteOffre,UpdateOffer} = require("../controllers/offreController")
 
 const offreRouter = require("express").Router()
 
