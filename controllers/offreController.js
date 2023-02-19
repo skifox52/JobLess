@@ -1,7 +1,9 @@
 const offreModel = require("../models/offreModel")
 const expressAsyncHandler = require("express-async-handler")
+
 //Afficher toutes les offres
-exports.getAllOffres = async (req, res) => {
+
+exports.getAllOffres = expressAsyncHandler(async (req, res) => {
   try {
     const offres = await offreModel.find()
     res.status(200).json(offres)
@@ -9,10 +11,10 @@ exports.getAllOffres = async (req, res) => {
     res.status(400)
     console.error(error)
   }
-}
+})
 
 //Créer une offre
-exports.postOffer = async (req, res) => {
+exports.postOffer = expressAsyncHandler (async (req, res) => {
   try {
     const { autheur, contact, competences, diplome, experience, description } =
       req.body
@@ -40,18 +42,18 @@ exports.postOffer = async (req, res) => {
     res.status(400)
     console.log(error)
   }
-}
+})
 
 
 
 // Modifier une offre
-exports.updateOffer = async (req, res) => {
+exports.updateOffer = expressAsyncHandler ( async (req, res) => {
   try {
     const id = req.params.id;
     const { autheur, contact, competences, diplome, experience, description } = req.body;
     const updatedOffer = { autheur, contact, competences, diplome, experience, description };
-    const options = { new: true };
-    const result = await offreModel.findByIdAndUpdate(id, updatedOffer, options);
+  
+    const result = await offreModel.findByIdAndUpdate(id, req.body);
     if (!result) {
       return res.status(404).json({ message: "L'offre n'a pas été trouvée." });
     }
@@ -59,7 +61,7 @@ exports.updateOffer = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: "La modification de l'offre a échoué.", error: error });
   }
-};
+});
 
 
 // Supprimer une offre : 
