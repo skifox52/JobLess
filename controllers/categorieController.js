@@ -1,5 +1,5 @@
 const categorieModel = require("../models/categorieModel")
-
+const expressAsyncHandler = require("express-async-handler")
 //Afficher toustes les categories 
 exports.getAllCategories = async (req, res) => { 
     try {
@@ -19,7 +19,7 @@ exports.postCategorie = async (req, res) => {
         if ( !nom ) {
             res.status(400).json("Vide")
         }
-
+        
         await categorieModel.create({
             nomcategorie:nom,
         })
@@ -31,7 +31,15 @@ exports.postCategorie = async (req, res) => {
 }
 
 // Supprimer une categorie : 
+exports.deleteCategorie = expressAsyncHandler( async (req , res ) => {
+    try {
+        const id = req.params.id 
+     
+        await categorieModel.findByIdAndDelete(id) 
+    } catch (error) {
+        res.status(400)
+        throw new Error(error) 
+    }
+})
 
-exports.deleteCategorie = async (req , res ) => {
-    
-}
+
