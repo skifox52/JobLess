@@ -1,5 +1,5 @@
 const offreModel = require("../models/offreModel")
-
+const expressAsyncHandler = require("express-async-handler")
 //Afficher toutes les offres
 exports.getAllOffres = async (req, res) => {
   try {
@@ -44,3 +44,16 @@ exports.postOffer = async (req, res) => {
 
 
 // modifier offre 
+
+
+// Supprimer une offre : 
+exports.deleteOffre = expressAsyncHandler( async (req , res ) => {
+  try {
+      const id = req.params.id 
+      await offreModel.findByIdAndDelete(id) 
+      res.status(201).json("Vous avez supprimé cette offre ")
+  } catch (error) {
+      res.status(400)
+      throw new Error(error) 
+  }
+})

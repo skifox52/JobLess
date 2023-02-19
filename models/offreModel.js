@@ -5,6 +5,10 @@ const offerModel = new mongoose.Schema({
     type: String,
     required: true,
   },
+  IdCategorie: {
+    type: String,
+    required: true,
+  },
   contact: {
     type: String,
     required: true,
