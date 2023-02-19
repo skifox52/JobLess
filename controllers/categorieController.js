@@ -1,7 +1,9 @@
 const categorieModel = require("../models/categorieModel")
 const expressAsyncHandler = require("express-async-handler")
+
+
 //Afficher toustes les categories 
-exports.getAllCategories = async (req, res) => { 
+exports.getAllCategories = expressAsyncHandler ( async (req, res) => { 
     try {
         const categories = await categorieModel.find()
         res.status(200).json(categories)
@@ -10,9 +12,10 @@ exports.getAllCategories = async (req, res) => {
         console.error(error)
     }
 }
+)
 
 //Ajouter une categorie 
-exports.postCategorie = async (req, res) => {
+exports.postCategorie = expressAsyncHandler ( async (req, res) => {
     try {
         const{ nom } = 
             req.body
@@ -28,7 +31,7 @@ exports.postCategorie = async (req, res) => {
         res.status(400)
         console.log(error)        
     }
-}
+})
 
 // Supprimer une categorie : 
 exports.deleteCategorie = expressAsyncHandler( async (req , res ) => {
@@ -45,3 +48,16 @@ exports.deleteCategorie = expressAsyncHandler( async (req , res ) => {
 
 // Modifier une categorie : 
 
+exports.updateCategorie = expressAsyncHandler( async (req, res) => {
+    try {
+        const id = req.params.id 
+        const Resultat = await categorieModel.findByIdAndUpdate(id,req.body)
+        if(!Resultat){
+            return res.status(404).json("La catégorie nexiste pas")
+        }
+        res.status(201).json("Catégorie Modifiée !! ")
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
+    }
+})
