@@ -2,7 +2,13 @@ const mongoose = require("mongoose")
 
 const offerModel = new mongoose.Schema({
   autheur: {
-    type: String,
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Recruteur",
+    required: true,
+  },
+  IdCategorie: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Categorie",
     required: true,
   },
   contact: {
@@ -25,6 +31,6 @@ const offerModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model("Offre", offerModel)
