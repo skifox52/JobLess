@@ -43,7 +43,23 @@ exports.postOffer = async (req, res) => {
 }
 
 
-// modifier offre 
+
+// Modifier une offre
+exports.updateOffer = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { autheur, contact, competences, diplome, experience, description } = req.body;
+    const updatedOffer = { autheur, contact, competences, diplome, experience, description };
+    const options = { new: true };
+    const result = await offreModel.findByIdAndUpdate(id, updatedOffer, options);
+    if (!result) {
+      return res.status(404).json({ message: "L'offre n'a pas été trouvée." });
+    }
+    res.status(200).json({ message: "L'offre a été modifiée avec succès.", offer: result });
+  } catch (error) {
+    res.status(400).json({ message: "La modification de l'offre a échoué.", error: error });
+  }
+};
 
 
 // Supprimer une offre : 
