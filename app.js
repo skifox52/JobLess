@@ -17,7 +17,7 @@ app.use("/offres", offreRouter)
 app.use("/categories", categorieRoute)
 
 
-app.use("/*", (res, req) => {
+app.use("/*", (req, res) => {
   res.status(404).json("Not found!")
 })
 app.use(ErrorHandler)
