@@ -1,4 +1,9 @@
 const mongoose = require("mongoose")
+
+//Role
+const Role = Object.freeze(["Admin", "Candidat", "Recruteur"])
+//Sexe
+const Sexe = Object.freeze(["Homme", "Femme"])
 //Super classe
 const UserSchema = mongoose.Schema(
   {
@@ -13,6 +18,7 @@ const UserSchema = mongoose.Schema(
     mail: {
       type: String,
       required: true,
+      unique: true,
     },
     date_de_naissance: {
       type: Date,
@@ -21,6 +27,7 @@ const UserSchema = mongoose.Schema(
     sexe: {
       type: String,
       required: true,
+      enum: Sexe,
     },
     mot_de_passe: {
       type: String,
@@ -33,27 +40,26 @@ const UserSchema = mongoose.Schema(
     role: {
       type: String,
       required: true,
+      enum: Role,
     },
   },
   { timestamps: true }
 )
 //Sub classes
-const AdminSchema = new mongoose.Schema({})
+const AdminSchema = new mongoose.Schema({}).add(UserSchema)
 const CandidatSchema = new mongoose.Schema({
   cv: {
     type: String,
     required: true,
   },
-})
+}).add(UserSchema)
 const RecruteurSchema = new mongoose.Schema({
   entreprise: {
     type: String,
     required: true,
   },
-})
-AdminSchema.add(UserSchema)
-CandidatSchema.add(UserSchema)
-RecruteurSchema.add(UserSchema)
+}).add(UserSchema)
+
 const AdminModel = mongoose.model("Admin", AdminSchema)
 const CandidatModel = mongoose.model("Candidat", CandidatSchema)
 const RecruteurModel = mongoose.model("Recruteur", RecruteurSchema)
