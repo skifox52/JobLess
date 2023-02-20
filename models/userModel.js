@@ -46,26 +46,26 @@ const UserSchema = mongoose.Schema(
   { timestamps: true }
 )
 //Sub classes
-const AdminSchema = new mongoose.Schema({}).add(UserSchema)
+
+const AdminSchema = new mongoose.Schema({})
+
 const CandidatSchema = new mongoose.Schema({
   cv: {
     type: String,
     required: true,
   },
-}).add(UserSchema)
+})
+
 const RecruteurSchema = new mongoose.Schema({
   entreprise: {
     type: String,
     required: true,
   },
-}).add(UserSchema)
+})
 
-const AdminModel = mongoose.model("Admin", AdminSchema)
-const CandidatModel = mongoose.model("Candidat", CandidatSchema)
-const RecruteurModel = mongoose.model("Recruteur", RecruteurSchema)
-const UsersModel = {
-  AdminModel,
-  CandidatModel,
-  RecruteurModel,
-}
-module.exports = UsersModel
+UserSchema.set("discriminatorKey", "role")
+UserSchema.discriminator("Admin", AdminSchema)
+UserSchema.discriminator("Candidat", CandidatSchema)
+UserSchema.discriminator("Recruteur", RecruteurSchema)
+
+module.exports = mongoose.model("Utilisateur", UserSchema)
