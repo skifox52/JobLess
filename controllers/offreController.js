@@ -14,31 +14,46 @@ exports.getAllOffres = expressAsyncHandler(async (req, res) => {
   }
 })
 
+// Afficher les offres où le candidat a postulé
+
+exports.getCandidatOffres = expressAsyncHandler(async (req, res) => {
+  try {
+    const candidatId = req.params.candidatId; 
+    const offres = await offreModel.find({ candidatId }); 
+    res.status(200).json(offres);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
+
+
 //Créer une offre
 exports.postOffer = expressAsyncHandler(async (req, res) => {
   try {
-    const { autheur, contact, competences, diplome, experience, description } =
+    const { autheur, contrat, competences, diplome, experience, description ,IdCategorie} =
       req.body
     if (
-      !autheur ||
-      !contact ||
+      !contrat ||
       !competences ||
       !diplome ||
       !experience ||
       !description
     ) {
-      res.status(400).json("Empty fields!!")
+      res.status(400).json("Fichier Vide !!")
     }
 
     await offreModel.create({
       autheur,
-      contact,
+      contrat,
+      IdCategorie,
       competences,
       diplome,
       experience,
       description,
     })
-    res.status(201).json("User created successfully!")
+    res.status(201).json("l'offre a été crée !")
   } catch (error) {
     res.status(400)
     console.log(error)
