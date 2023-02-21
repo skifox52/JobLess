@@ -2,7 +2,7 @@ const candidatureModel = require("../models/candidatureModel")
 const expressAsyncHandler = require("express-async-handler")
 
 
-//Afficher toutes les offres
+//Afficher toutes les candidature
 
 exports.getAllcandidatures = expressAsyncHandler(async (req, res) => {
   try {
