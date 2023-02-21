@@ -1,4 +1,7 @@
 const offreModel = require("../models/offreModel")
+const userModel = require("../models/userModel")
+const candidatureModel = require("../models/candidatureModel");
+
 const expressAsyncHandler = require("express-async-handler")
 
 //Afficher toutes les offres
@@ -15,13 +18,27 @@ exports.getAllOffres = expressAsyncHandler(async (req, res) => {
 
 // Afficher les offres où le candidat a postulé
 
-exports.getCandidatOffres = expressAsyncHandler(async (req, res) => {
+exports.getAppliedOffres = expressAsyncHandler(async (req, res) => {
   try {
-    const candidatId = req.params.candidatId; 
-    const offres = await offreModel.find({ candidatId }); 
+    const candidatId = req.params.candidatId;
+    const candidatures = await candidatureModel.find({ candidatId: candidatId }).populate("offreId");
+    const offres = candidatures.map((candidature) => candidature.offreId);
     res.status(200).json(offres);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json(error);
+  }
+});
+
+// Afficher les entreprises 
+
+exports.getEntrepriseOffres = expressAsyncHandler(async (req, res) => {
+  try {
+    const entreprise = req.params.entreprise;
+    const users = await userModel.find({ entreprise: entreprise });
+    const offres = await offreModel.find({ autheur: { $in: users.map((user) => user._id) } });
+    res.status(200).json(offres);
+  } catch (error) {
+    res.status(400).json(error);
   }
 });
 
