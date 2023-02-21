@@ -1,7 +1,7 @@
 const offreModel = require("../models/offreModel")
 const userModel = require("../models/userModel")
 const candidatureModel = require("../models/candidatureModel");
-const userModel = require("../models/userModel")
+
 
 const expressAsyncHandler = require("express-async-handler")
 
@@ -34,8 +34,8 @@ exports.getAppliedOffres = expressAsyncHandler(async (req, res) => {
 
 exports.getEntrepriseOffres = expressAsyncHandler(async (req, res) => {
   try {
-    const entreprise = req.params.entreprise;
-    const users = await userModel.find({ entreprise: entreprise });
+    const entreprise = req.params.entreprise.toString().toLowerCase();
+    const users = await userModel.find({ entreprise });
     const offres = await offreModel.find({ autheur: { $in: users.map((user) => user._id) } });
     res.status(200).json(offres);
   } catch (error) {
@@ -49,7 +49,7 @@ exports.getEntrepriseOffres = expressAsyncHandler(async (req, res) => {
 //Créer une offre
 exports.postOffer = expressAsyncHandler(async (req, res) => {
   try {
-    const { autheur, contrat, competences, diplome, experience, description ,IdCategorie} =
+    const {  contrat, competences, diplome, experience, description ,IdCategorie} =
       req.body
     if (
       !contrat ||
@@ -62,7 +62,7 @@ exports.postOffer = expressAsyncHandler(async (req, res) => {
     }
 
     await offreModel.create({
-      autheur,
+      autheur: req.user._id,
       contrat,
       IdCategorie,
       competences,

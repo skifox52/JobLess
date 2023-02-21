@@ -14,5 +14,32 @@ exports.getAllcandidatures = expressAsyncHandler(async (req, res) => {
   }
 })
 
+//Ajouter une candidature
+exports.postCandidature = expressAsyncHandler(async (req, res) => {
+  try {  
+    const idCandidat = req.user._id
+    const {idOffre} = req.params
+    await candidatureModel.create({
+      idCandidat,
+      idOffre, 
+    })
+    res.status(201).json("Candidature creer")
+  } catch (error) {
+    res.status(400)
+    console.log(error)
+  }
+})
+//Modifier une candidature
+exports.modifierCandidature = expressAsyncHandler(async (req, res) => {
+  try {  
+    const {id} = req.params
+    const {Etat} = req.body
+    await candidatureModel.findByIdAndUpdate(id,{Etat})
+    res.status(201).json("Candidature Modifier")
+  } catch (error) {
+    res.status(400)
+    console.log(error)
+  }
+})
 
 

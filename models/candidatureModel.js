@@ -21,4 +21,4 @@ const candidatureModel = new mongoose.Schema(
   { timestamps: true }
 )
 
-module.exports = mongoose.model("candidatures", candidatureModel)
+module.exports = mongoose.model("candidature", candidatureModel)

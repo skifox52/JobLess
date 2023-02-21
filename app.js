@@ -1,8 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
-
 const ErrorHandler = require("./middlewares/ErrorHandler")
-
 const offreRouter = require("./routes/offreRoute")
 const userRouter = require("./routes/userRoute")
 const categorieRoute = require("./routes/categorieRoute")
