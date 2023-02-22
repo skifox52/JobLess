@@ -4,12 +4,12 @@ const candidatureModel = new mongoose.Schema(
   {
     idOffre: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "offre",
+      ref: "Offre",
       required: true,
     },
     idCandidat: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "User",
+      ref: "Utilisateur",
       required: true,
     },
     Etat: {
@@ -21,4 +21,4 @@ const candidatureModel = new mongoose.Schema(
   { timestamps: true }
 )
 
-module.exports = mongoose.model("candidatures", candidatureModel)
+module.exports = mongoose.model("candidature", candidatureModel)

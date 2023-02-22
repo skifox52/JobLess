@@ -1,12 +1,14 @@
 const UserModel = require("../models/userModel")
 const bcrypt = require("bcrypt")
 const expressAsyncHandler = require("express-async-handler")
+
 //Create a user
 exports.ajouterUtilisateur = expressAsyncHandler(async (req, res) => {
   try {
-    const { mot_de_passe, ...body } = req.body
+    const { mot_de_passe, cv, ...body } = req.body
     await UserModel.create({
       ...body,
+      cv: req.cv,
       mot_de_passe: await bcrypt.hash(req.body.mot_de_passe, 10),
     })
     res.status(201).json("User created Successfully!")
